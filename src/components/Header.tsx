@@ -1,10 +1,10 @@
 export default function Header() {
     return (
-        <header className="flex items-center justify-between">
+        <header className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
                 <div className="h-12 w-12 rounded-md bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white font-semibold">SE</div>
                 <div>
-                    <div className="text-lg font-bold">Systeme Electric</div>
+                    <h1 className="text-lg font-bold">Systeme Electric</h1>
                     <div className="text-sm text-gray-500">Прототип подбора аналогов — демо</div>
                 </div>
             </div>
