@@ -14,13 +14,13 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ filters, onFiltersCh
         <div className="p-6">
             <div className="flex flex-wrap gap-6 items-stretch">
                 <div className="flex-1 min-w-[200px]">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-on-dark mb-2">
                         Производитель
                     </label>
                     <select
                         value={filters.manufacturer}
                         onChange={(e) => onFiltersChange({ ...filters, manufacturer: e.target.value })}
-                        className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                        className="w-full border border-primary rounded-lg px-4 py-3 text-sm bg-dark focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 text-on-dark"
                     >
                         <option value="">Все производители</option>
                         <option value="Systeme Electric">Systeme Electric</option>
@@ -30,7 +30,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ filters, onFiltersCh
                 </div>
 
                 <div className="flex-1 min-w-[250px] flex flex-col">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-on-dark mb-2">
                         Совпадение: {(filters.confidence * 100).toFixed(0)}%
                     </label>
                     <div className="flex-1 flex items-center">
@@ -41,13 +41,13 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ filters, onFiltersCh
                             step="0.01"
                             value={filters.confidence}
                             onChange={(e) => onFiltersChange({ ...filters, confidence: parseFloat(e.target.value) })}
-                            className="w-full bg-blue-100 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-600"
+                            className="w-full h-4 bg-dark border-1 border-primary rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
                         />
                     </div>
                 </div>
 
                 <div className="flex-1 min-w-[300px]">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-on-dark mb-2">
                         Поиск
                     </label>
                     <div className="relative">
@@ -56,7 +56,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ filters, onFiltersCh
                             value={filters.search}
                             onChange={(e) => onFiltersChange({ ...filters, search: e.target.value })}
                             placeholder="Поиск по наименованию..."
-                            className="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                            className="w-full border border-primary rounded-lg pl-9 px-4 py-3 text-sm bg-dark focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 text-on-dark"
                         />
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
                             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { ResultTable } from '../catalog/ResultTable.tsx';
+import { ResultList } from '../catalog/ResultList.tsx';
 import { FiltersPanel } from './FiltersPanel.tsx';
-import { ExportPanel } from './ExportPanel.tsx';
 import type {MatchResult, Product} from "../../App.tsx";
 
 interface ResultPanelProps {
@@ -33,21 +32,22 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
     });
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="p-6 border-b border-gray-100">
-                <h2 className="text-2xl font-bold text-gray-800">Результаты подбора</h2>
-                <p className="text-gray-500 text-sm mt-1">Найдено {filteredResults.length} вариантов</p>
+        <div className="bg-dark-container text-white rounded-xl shadow-sm overflow-hidden">
+            <div className="p-6 flex justify-between items-center">
+                <div>
+                    <h2 className="text-2xl font-bold">Результаты подбора</h2>
+                    <p className="text-on-dark text-sm mt-2">Найдено {filteredResults.length} вариантов</p>
+                </div>
+                <button className="btn-primary" type="button">Загрузить XLSX</button>
             </div>
 
             <FiltersPanel filters={filters} onFiltersChange={setFilters} />
 
-            <ResultTable
+            <ResultList
                 results={filteredResults}
                 onEdit={onEdit}
                 onUpdateBestMatch={onUpdateBestMatch}
             />
-
-            <ExportPanel results={filteredResults} />
         </div>
     );
 };

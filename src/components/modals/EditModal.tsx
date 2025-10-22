@@ -27,7 +27,6 @@ export const EditModal: React.FC<EditModalProps> = ({ item, onClose, onSave }) =
                 </div>
 
                 <div className="p-6 space-y-6">
-                    {/* Информация о запросе */}
                     <div>
                         <h3 className="font-medium mb-2">Запрос:</h3>
                         <div className="bg-gray-50 p-4 rounded">
@@ -42,7 +41,6 @@ export const EditModal: React.FC<EditModalProps> = ({ item, onClose, onSave }) =
                         </div>
                     </div>
 
-                    {/* Текущий лучший аналог */}
                     <div>
                         <h3 className="font-medium mb-2">Текущий лучший аналог:</h3>
                         <div className="bg-blue-50 p-4 rounded">
@@ -63,7 +61,6 @@ export const EditModal: React.FC<EditModalProps> = ({ item, onClose, onSave }) =
                         </div>
                     </div>
 
-                    {/* Альтернативы */}
                     {item.alternatives.length > 0 && (
                         <div>
                             <h3 className="font-medium mb-2">Альтернативные варианты:</h3>
@@ -99,7 +96,6 @@ export const EditModal: React.FC<EditModalProps> = ({ item, onClose, onSave }) =
                         </div>
                     )}
 
-                    {/* Комментарии */}
                     <div>
                         <h3 className="font-medium mb-2">Комментарии эксперта:</h3>
                         <textarea

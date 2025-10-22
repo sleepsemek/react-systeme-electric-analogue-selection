@@ -13,7 +13,7 @@ export interface Product {
 }
 
 export interface MatchResult {
-    requestId: string;
+    tableRow: string;
     originalProduct: Product;
     bestMatch: Product;
     confidence: number;
@@ -32,12 +32,74 @@ export default function App() {
         setLoading(true);
         addNotification('Начата обработка файла');
 
-        // Имитация API вызова
         setTimeout(() => {
-            // Моковые данные для демонстрации
             const mockResults: MatchResult[] = [
                 {
-                    requestId: 'REQ-001',
+                    tableRow: '1',
+                    originalProduct: {
+                        id: '1',
+                        name: 'Автоматический выключатель 16А',
+                        manufacturer: 'Competitor A',
+                        parameters: { current: '16A', voltage: '400V' }
+                    },
+                    bestMatch: {
+                        id: 'SYS-001',
+                        name: 'Автоматический выключатель S-16A',
+                        manufacturer: 'Systeme Electric',
+                        parameters: { current: '16A', voltage: '415V' }
+                    },
+                    confidence: 0.74,
+                    differences: ['Напряжение: 390V → 415V'],
+                    status: 'success',
+                    alternatives: [
+                        {
+                            id: '1',
+                            name: 'Автоматический выключатель 16А',
+                            manufacturer: 'Competitor A',
+                            parameters: { current: '16A', voltage: '400V' }
+                        },
+                        {
+                            id: '1',
+                            name: 'Автоматический выключатель 16А',
+                            manufacturer: 'Competitor A',
+                            parameters: { current: '16A', voltage: '400V' }
+                        },
+                    ]
+                },
+                {
+                    tableRow: '2',
+                    originalProduct: {
+                        id: '1',
+                        name: 'Автоматический выключатель 16А',
+                        manufacturer: 'Competitor A',
+                        parameters: { current: '16A', voltage: '400V' }
+                    },
+                    bestMatch: {
+                        id: 'SYS-001',
+                        name: 'Автоматический выключатель S-16A',
+                        manufacturer: 'Systeme Electric',
+                        parameters: { current: '16A', voltage: '415V' }
+                    },
+                    confidence: 0.92,
+                    differences: ['Напряжение: 400V → 415V'],
+                    status: 'success',
+                    alternatives: [
+                        {
+                            id: '1',
+                            name: 'Автоматический выключатель 16А',
+                            manufacturer: 'Competitor A',
+                            parameters: { current: '16A', voltage: '400V' }
+                        },
+                        {
+                            id: '1',
+                            name: 'Автоматический выключатель 16А',
+                            manufacturer: 'Competitor A',
+                            parameters: { current: '16A', voltage: '400V' }
+                        },
+                    ]
+                },
+                {
+                    tableRow: '3',
                     originalProduct: {
                         id: '1',
                         name: 'Автоматический выключатель 16А',
@@ -72,7 +134,7 @@ export default function App() {
 
     const updateBestMatch = (requestId: string, newBestMatch: Product) => {
         setResults(prev => prev.map(item =>
-            item.requestId === requestId
+            item.tableRow === requestId
                 ? { ...item, bestMatch: newBestMatch }
                 : item
         ));
@@ -80,14 +142,14 @@ export default function App() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-dark text-white p-6">
             <div className="max-w-7xl mx-auto">
                 <Header />
                 <UploadPanel onFileUpload={handleFileUpload} />
 
                 {loading && (
                     <div className="mt-8">
-                        <div className="bg-white rounded-lg shadow p-6">
+                        <div className="bg-dark-container rounded-lg shadow p-6">
                             <div className="flex items-center justify-between mb-2">
                                 <span className="text-sm font-medium">Обработка данных...</span>
                                 <span className="text-sm font-medium">50%</span>
@@ -115,7 +177,7 @@ export default function App() {
                         onClose={() => setEditingItem(null)}
                         onSave={(updatedItem) => {
                             setResults(prev => prev.map(item =>
-                                item.requestId === updatedItem.requestId ? updatedItem : item
+                                item.tableRow === updatedItem.requestId ? updatedItem : item
                             ));
                             setEditingItem(null);
                             addNotification('Изменения сохранены');

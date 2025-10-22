@@ -68,12 +68,12 @@ export const UploadPanel: React.FC<UploadPanelProps> = ({ onFileUpload }) => {
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Загрузка таблицы</h2>
+        <div className="bg-dark-container rounded-xl shadow-sm p-6 mb-8">
+            <h2 className="text-2xl font-bold text-white mb-6">Загрузка таблицы</h2>
 
             <div
-                className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
-                    ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}
+                className={`group border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors border-on-dark hover:bg-secondary-container hover:border-primary
+                ${isDragging ? 'bg-secondary-container border-primary' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
@@ -87,35 +87,37 @@ export const UploadPanel: React.FC<UploadPanelProps> = ({ onFileUpload }) => {
                     className="hidden"
                 />
 
-                <div className="space-y-4">
-                    <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="space-y-6">
+                    <svg className="mx-auto h-12 w-12 text-on-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
 
                     <div>
-                        <div className={`bg-blue-600 text-white px-4 py-2 rounded-md inline`}>
+                        <div className={`btn-primary inline group-hover:bg-primary/70 group-hover:text-on-dark
+                        ${isDragging ? 'bg-primary/70 text-on-dark' : ''}`}>
                             Выбрать файл
                         </div>
                     </div>
 
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-on-dark group-hover:text-white transition-colors">
                         Поддерживаемые форматы: Excel (.xlsx, .xls), CSV. Можно перетащить файл сюда.
                     </p>
                 </div>
             </div>
 
             {selectedFile && (
-                <div className="mt-4 p-4 bg-green-50 rounded-xl">
+                <div className="mt-4 p-4 bg-secondary-container rounded-xl">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="font-medium text-green-800">{selectedFile.name}</p>
-                            <p className="text-sm text-green-600">
+                            <p className="font-medium text-primary">{selectedFile.name}</p>
+                            <p className="text-sm text-on-dark">
                                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                             </p>
                         </div>
                         <button
                             onClick={handleUpload}
-                            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                            className="btn-primary"
+                            type="button"
                         >
                             Подобрать аналоги
                         </button>
@@ -124,9 +126,9 @@ export const UploadPanel: React.FC<UploadPanelProps> = ({ onFileUpload }) => {
             )}
 
             {errors.length > 0 && (
-                <div className="mt-4 p-4 bg-red-50 rounded-md">
-                    <h3 className="text-red-800 font-medium mb-2">Ошибки валидации:</h3>
-                    <ul className="list-disc list-inside text-red-600">
+                <div className="mt-4 p-6 bg-error-container rounded-xl">
+                    <h3 className="text-error font-medium mb-2">Ошибки валидации:</h3>
+                    <ul className="list-disc list-inside text-error">
                         {errors.map((error, index) => (
                             <li key={index}>{error}</li>
                         ))}

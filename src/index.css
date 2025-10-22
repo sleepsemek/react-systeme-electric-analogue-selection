@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@theme {
+    --color-primary: #00ac86;
+    --color-dark: #09101a;
+    --color-dark-container: #0e1623;
+    --color-secondary-container: #171d29;
+    --color-error: #ff554d;
+    --color-error-container: #3c1917;
+    --color-on-dark: #d0d2d2;
+    --color-gray: #787f86;
+    --color-container: #3c3c3c;
+}
+
+@layer components {
+    .btn-primary {
+        @apply bg-primary text-white px-5 py-3 rounded-full hover:bg-primary/70 hover:text-on-dark transition-all duration-200 hover:cursor-pointer
+    }
+}
