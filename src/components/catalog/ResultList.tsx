@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import type { MatchResult, Product } from '../../App.tsx';
+import {useState} from 'react';
+import type {MatchResult, Product} from '../../App.tsx';
 
 interface ResultListProps {
     results: MatchResult[];
@@ -13,7 +13,7 @@ export function ResultList(
         onEdit,
         onUpdateBestMatch
     }: ResultListProps
-){
+) {
     const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
     const toggleItem = (requestId: string) => {
@@ -48,47 +48,41 @@ export function ResultList(
                     <div className="p-6">
                         <div className="flex flex-col lg:flex-row lg:items-start gap-4">
                             <div className="flex-1 space-y-4">
-                                <div className="flex items-start justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="bg-secondary-container px-3 py-1 rounded-lg border border-gray-700">
-                                            <span className="text-sm font-medium text-on-dark">
-                                                Строка #{item.tableRow}
-                                            </span>
+                                <div className="flex items-center gap-3 flex-wrap">
+                                    <div
+                                        className="bg-secondary-container px-3 py-1 rounded-lg border border-gray-700">
+                                        <span className="text-sm font-medium text-on-dark">
+                                            №{item.tableRow}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-3 shrink-0">
+                                        <div className="text-sm font-medium text-on-dark">
+                                            Уверенность:
                                         </div>
                                         <span className={`px-3 py-1 text-xs font-medium rounded-full ${getConfidenceColor(item.confidence)}`}>
                                             {getConfidenceText(item.confidence)} • {(item.confidence * 100).toFixed(1)}%
                                         </span>
                                     </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() => onEdit(item)}
-                                            className="text-primary hover:text-primary-darker text-sm font-medium flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary-container transition-colors"
-                                        >
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                            </svg>
-                                            Редактировать
-                                        </button>
-                                        <button
-                                            onClick={() => toggleItem(item.tableRow)}
-                                            className="text-on-dark hover:text-white text-sm font-medium flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary-container transition-colors"
-                                        >
-                                            <svg className={`w-4 h-4 transition-transform ${expandedItems.has(item.tableRow) ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                            {expandedItems.has(item.tableRow) ? 'Скрыть' : 'Подробнее'}
-                                        </button>
-                                    </div>
+                                    <button
+                                        onClick={() => onEdit(item)}
+                                        className="md:ml-auto text-primary hover:text-primary-darker text-sm font-medium flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary-container transition-colors"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor"
+                                             viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
+                                        Редактировать
+                                    </button>
                                 </div>
 
                                 <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="space-y-3">
-                                        <h4 className="text-sm font-semibold text-on-dark uppercase tracking-wide">
+                                    <div className="flex flex-col gap-y-3">
+                                        <h4 className="text-sm font-semibold text-on-dark uppercase">
                                             Исходный продукт
                                         </h4>
-                                        <div className="bg-secondary-container rounded-lg p-4">
-                                            <p className="font-medium text-white mb-2">{item.originalProduct.name}</p>
+                                        <div className="bg-secondary-container rounded-lg p-4 flex flex-col h-full">
+                                            <p className="font-medium text-white mb-2 grow">{item.originalProduct.name}</p>
                                             <div className="space-y-1">
                                                 {Object.entries(item.originalProduct.parameters).map(([key, value]) => (
                                                     <div key={key} className="flex justify-between text-sm">
@@ -100,12 +94,12 @@ export function ResultList(
                                         </div>
                                     </div>
 
-                                    <div className="space-y-3">
-                                        <h4 className="text-sm font-semibold text-on-dark uppercase tracking-wide">
+                                    <div className="flex flex-col gap-y-3">
+                                        <h4 className="text-sm font-semibold text-on-dark uppercase">
                                             Лучший аналог
                                         </h4>
-                                        <div className="bg-secondary-container rounded-lg p-4">
-                                            <div className="flex items-start justify-between mb-2">
+                                        <div className="bg-secondary-container rounded-lg p-4 flex flex-col h-full">
+                                            <div className="flex items-start justify-between mb-2 flex-wrap gap-2">
                                                 <p className="font-medium text-white">{item.bestMatch.name}</p>
                                                 <span className="bg-primary/20 text-primary text-xs px-2 py-1 rounded">
                                                     {item.bestMatch.manufacturer}
@@ -140,57 +134,65 @@ export function ResultList(
                                         </div>
                                     </div>
                                 )}
+                                {item.alternatives.length > 0 && (
+                                    <div className="flex items-center justify-between flex-wrap gap-2 flex-row-reverse">
+                                        <button
+                                            onClick={() => toggleItem(item.tableRow)}
+                                            className="btn-rect flex items-center gap-2"
+                                        >
+                                            <svg
+                                                className={`w-4 h-4 transition-transform ${expandedItems.has(item.tableRow) ? 'rotate-180' : ''}`}
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                      d="M19 9l-7 7-7-7"/>
+                                            </svg>
+                                            {expandedItems.has(item.tableRow) ? 'Скрыть альтернативные варианты' : 'Показать альтернативные варианты'}
+                                        </button>
+                                        <span
+                                            className="text-sm text-on-dark">
+                                            {item.alternatives.length} альтернативных вариантов
+                                        </span>
+                                    </div>
+                                )}
                             </div>
                         </div>
-                    </div>
+                        {expandedItems.has(item.tableRow) && (
+                            <>
+                                <div className="flex items-center justify-between my-4">
+                                    <h4 className="font-semibold text-white text-lg">Альтернативные варианты</h4>
+                                </div>
 
-                    {expandedItems.has(item.tableRow) && (
-                        <div className="p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h4 className="font-semibold text-white text-lg">Альтернативные варианты</h4>
-                                <span className="text-sm text-on-dark/50 bg-dark-container px-3 py-1 rounded-full">
-                                    {item.alternatives.length} вариантов
-                                </span>
-                            </div>
-
-                            <div className="space-y-4">
-                                {item.alternatives.map((alternative, index) => (
-                                    <div
-                                        key={index}
-                                        className="flex flex-col lg:flex-row lg:items-center justify-between p-4 bg-secondary-container rounded-lg"
-                                    >
-                                        <div className="flex-1 mb-4 lg:mb-0 lg:mr-6">
-                                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    {item.alternatives.map((alternative, index) => (
+                                        <div className="bg-secondary-container rounded-lg p-4" key={index}>
+                                            <div className="flex flex-wrap justify-between mb-4 gap-x-4 gap-y-2">
                                                 <p className="font-medium text-white">{alternative.name}</p>
-                                                <span className="bg-primary/20 text-primary text-xs px-2 py-1 rounded">
-                                                    {alternative.manufacturer}
-                                                </span>
+                                                <button
+                                                    onClick={() => onUpdateBestMatch(item.tableRow, alternative)}
+                                                    className="btn-rect flex items-center gap-2 self-start w-full sm:w-auto"
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                    Выбрать лучшим
+                                                </button>
                                             </div>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                                            <div className="space-y-1">
                                                 {Object.entries(alternative.parameters).map(([key, value]) => (
                                                     <div key={key} className="flex justify-between text-sm">
-                                                        <span className="text-on-dark/50">{key}:</span>
+                                                        <span className="text-on-dark font-medium">{key}:</span>
                                                         <span className="text-on-dark font-medium">{value}</span>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
-                                        <button
-                                            onClick={() => onUpdateBestMatch(item.tableRow, alternative)}
-                                            className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap"
-                                        >
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                            Выбрать лучшим
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
             ))}
         </div>
-    );
-};
+    )
+}

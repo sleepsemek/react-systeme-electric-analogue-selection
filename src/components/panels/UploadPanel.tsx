@@ -107,7 +107,7 @@ export const UploadPanel: React.FC<UploadPanelProps> = ({ onFileUpload }) => {
 
             {selectedFile && (
                 <div className="mt-4 p-4 bg-secondary-container rounded-xl">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
                         <div>
                             <p className="font-medium text-primary">{selectedFile.name}</p>
                             <p className="text-sm text-on-dark">
@@ -116,7 +116,7 @@ export const UploadPanel: React.FC<UploadPanelProps> = ({ onFileUpload }) => {
                         </div>
                         <button
                             onClick={handleUpload}
-                            className="btn-primary"
+                            className="btn-primary w-full sm:w-auto"
                             type="button"
                         >
                             Подобрать аналоги
@@ -126,7 +126,7 @@ export const UploadPanel: React.FC<UploadPanelProps> = ({ onFileUpload }) => {
             )}
 
             {errors.length > 0 && (
-                <div className="mt-4 p-6 bg-error-container rounded-xl">
+                <div className="mt-4 p-6 bg-error/10 rounded-xl">
                     <h3 className="text-error font-medium mb-2">Ошибки валидации:</h3>
                     <ul className="list-disc list-inside text-error">
                         {errors.map((error, index) => (

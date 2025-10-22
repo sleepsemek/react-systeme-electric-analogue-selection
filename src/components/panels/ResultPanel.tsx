@@ -33,15 +33,15 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
 
     return (
         <div className="bg-dark-container text-white rounded-xl shadow-sm overflow-hidden">
-            <div className="p-6 flex justify-between items-center">
+            <div className="p-6 flex justify-between items-center flex-wrap gap-2">
                 <div>
                     <h2 className="text-2xl font-bold">Результаты подбора</h2>
-                    <p className="text-on-dark text-sm mt-2">Найдено {filteredResults.length} вариантов</p>
+                    <p className="text-on-dark text-sm mt-2">Получено {filteredResults.length} позиции</p>
                 </div>
-                <button className="btn-primary" type="button">Загрузить XLSX</button>
+                <button className="btn-primary w-full sm:w-auto" type="button">Скачать таблицу</button>
             </div>
 
-            <FiltersPanel filters={filters} onFiltersChange={setFilters} />
+            {/*<FiltersPanel filters={filters} onFiltersChange={setFilters} />*/}
 
             <ResultList
                 results={filteredResults}

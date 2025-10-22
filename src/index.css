@@ -16,4 +16,12 @@
     .btn-primary {
         @apply bg-primary text-white px-5 py-3 rounded-full hover:bg-primary/70 hover:text-on-dark transition-all duration-200 hover:cursor-pointer
     }
+
+    .btn-rect {
+        @apply bg-primary text-white hover:bg-primary/70 hover:text-on-dark hover:cursor-pointer text-sm font-medium transition-all duration-200 px-3 py-2 rounded-lg
+    }
+}
+
+html {
+    box-sizing: border-box;
 }
