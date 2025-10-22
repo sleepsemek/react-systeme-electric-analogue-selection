@@ -79,7 +79,7 @@ export function ResultList(
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div className="flex flex-col gap-y-3">
                                         <h4 className="text-sm font-semibold text-on-dark uppercase">
-                                            Исходный продукт
+                                            Исходная позиция
                                         </h4>
                                         <div className="bg-secondary-container rounded-lg p-4 flex flex-col h-full">
                                             <p className="font-medium text-white mb-2 grow">{item.originalProduct.name}</p>

@@ -36,7 +36,7 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
             <div className="p-6 flex justify-between items-center flex-wrap gap-2">
                 <div>
                     <h2 className="text-2xl font-bold">Результаты подбора</h2>
-                    <p className="text-on-dark text-sm mt-2">Получено {filteredResults.length} позиции</p>
+                    <p className="text-on-dark text-sm mt-2">Обработано {filteredResults.length} позиций номенклатуры</p>
                 </div>
                 <button className="btn-primary w-full sm:w-auto" type="button">Скачать таблицу</button>
             </div>
