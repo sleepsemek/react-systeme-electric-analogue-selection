@@ -58,18 +58,25 @@ export default function App() {
 
     const handleDownload = () => {
         const data = results.map(item => {
-            const best = item.matchedAlternatives[0]
+            const match = item.matchedAlternatives[0]
+
+            const combinedParams = Object.keys({...item.originalProduct.parameters, ...(match?.product.parameters ?? {})})
+                .reduce((acc, key) => {
+                    const orig = item.originalProduct.parameters[key]
+                    const alt = match?.product.parameters?.[key]
+                    acc[key] = alt !== undefined && orig !== alt ? `${orig} → ${alt}` : orig
+                    return acc
+                }, {} as Record<string, string | number>);
 
             return {
                 '№': item.tableRow,
-                'Оригинальный ID': item.originalProduct.id,
-                'Оригинальное название': item.originalProduct.name,
-                'Оригинальный производитель': item.originalProduct.manufacturer,
-                ...item.originalProduct.parameters,
-                'Выбранный аналог ID': best?.product.id ?? '',
-                'Выбранный аналог название': best?.product.name ?? '',
-                'Выбранный аналог производитель': best?.product.manufacturer ?? '',
-                ...best?.product.parameters
+                'Исходный ID': item.originalProduct.id,
+                'Исходный название': item.originalProduct.name,
+                'Исходный производитель': item.originalProduct.manufacturer,
+                'Аналог ID': match?.product.id ?? '',
+                'Аналог название': match?.product.name ?? '',
+                'Аналог производитель': match?.product.manufacturer ?? '',
+                ...combinedParams
             }
         })
 
@@ -77,7 +84,7 @@ export default function App() {
         const workbook = XLSX.utils.book_new()
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Номенклатура')
 
-        XLSX.writeFile(workbook, 'Подобранные_аналоги_систэм_электрик.xlsx')
+        XLSX.writeFile(workbook, 'Подобранная_номенклатура_Систэм_Электрик.xlsx')
     }
 
     return (
