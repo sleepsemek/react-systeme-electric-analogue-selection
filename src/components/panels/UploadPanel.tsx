@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import Section from "../Section.tsx";
-import Button from "../Button.tsx";
+import React, { useRef, useState } from 'react'
+import Section from "../Section.tsx"
+import Button from "../Button.tsx"
 
 type UploadPanelProps = {
     onFileUpload: (file: File) => void
@@ -38,7 +38,7 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
             errors.push('Размер файла не должен превышать 10MB')
         }
 
-        return errors;
+        return errors
     }
 
     const handleUpload = () => {

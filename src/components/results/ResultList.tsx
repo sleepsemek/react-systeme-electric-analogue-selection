@@ -3,7 +3,7 @@ import ExpandableContent from "../ExpandableContent.tsx"
 import Badge from "../Badge.tsx"
 import Button from "../Button.tsx"
 import type {MatchResult, Product} from "../../domain/models.ts"
-import {ConfidenceBadge} from "../ConfidenceBadge.tsx";
+import {ConfidenceBadge} from "../ConfidenceBadge.tsx"
 
 type ResultListProps = {
     results: MatchResult[]

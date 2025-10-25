@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { MatchResult, MatchedAlternative } from '../../domain/models.ts'
-import {ConfidenceBadge} from "../ConfidenceBadge.tsx";
-import Button from "../Button.tsx";
+import {ConfidenceBadge} from "../ConfidenceBadge.tsx"
+import Button from "../Button.tsx"
 
 type EditModalProps = {
     item: MatchResult

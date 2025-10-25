@@ -1,4 +1,4 @@
-import {type PropsWithChildren, useEffect, useRef} from "react";
+import {type PropsWithChildren, useEffect, useRef} from "react"
 
 type ExpandableContentProps = PropsWithChildren<{
     open: boolean
@@ -36,7 +36,7 @@ export default function ExpandableContent({ open, children, className = ''}: Exp
         }
 
         return () => element.removeEventListener('transitionend', onTransitionEnd)
-    }, [open]);
+    }, [open])
 
     return (
         <div

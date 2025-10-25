@@ -1,5 +1,5 @@
 type NotificationPanelProps = {
-    messages: string[];
+    messages: string[]
 }
 
 export const NotificationPanel = ({ messages }: NotificationPanelProps) => {
@@ -21,5 +21,5 @@ export const NotificationPanel = ({ messages }: NotificationPanelProps) => {
                 </div>
             ))}
         </div>
-    );
-};
+    )
+}

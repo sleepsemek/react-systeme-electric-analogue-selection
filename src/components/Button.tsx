@@ -1,4 +1,4 @@
-import {type PropsWithChildren, type ReactNode, type SyntheticEvent} from "react";
+import {type PropsWithChildren, type ReactNode, type SyntheticEvent} from "react"
 
 type ButtonProps = PropsWithChildren<{
     variant?: 'primary' | 'cancel' | 'rectangular' | 'transparent'
@@ -22,13 +22,13 @@ export default function Button({
     }
 
     return (
-            <button
-                onClick={onClick}
-                className={`${classNames[variant]} ${className}`}
-                type="button"
-            >
-                { icon }
-                { children }
-            </button>
-        )
+        <button
+            onClick={onClick}
+            className={`${classNames[variant]} ${className}`}
+            type="button"
+        >
+            { icon }
+            { children }
+        </button>
+    )
 }

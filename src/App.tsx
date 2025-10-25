@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { UploadPanel } from './components/panels/UploadPanel.tsx';
-import { ResultPanel } from './components/panels/ResultPanel.tsx';
-import { NotificationPanel } from './components/panels/NotificationPanel.tsx';
-import { EditModal } from './components/modals/EditModal.tsx';
-import Header from "./components/Header.tsx";
-import type { MatchResult, Product } from "./domain/models.ts";
-import {processFile} from "./domain/usecases/processFile.ts";
+import { useState } from 'react'
+import { UploadPanel } from './components/panels/UploadPanel.tsx'
+import { ResultPanel } from './components/panels/ResultPanel.tsx'
+import { NotificationPanel } from './components/panels/NotificationPanel.tsx'
+import { EditModal } from './components/modals/EditModal.tsx'
+import Header from "./components/Header.tsx"
+import type { MatchResult, Product } from "./domain/models.ts"
+import { processFile } from "./domain/usecases/processFile.ts"
+import * as XLSX from 'xlsx'
 
 export default function App() {
     const [results, setResults] = useState<MatchResult[]>([])
@@ -55,6 +56,30 @@ export default function App() {
         addNotification('Лучший аналог обновлен')
     }
 
+    const handleDownload = () => {
+        const data = results.map(item => {
+            const best = item.matchedAlternatives[0]
+
+            return {
+                '№': item.tableRow,
+                'Оригинальный ID': item.originalProduct.id,
+                'Оригинальное название': item.originalProduct.name,
+                'Оригинальный производитель': item.originalProduct.manufacturer,
+                ...item.originalProduct.parameters,
+                'Выбранный аналог ID': best?.product.id ?? '',
+                'Выбранный аналог название': best?.product.name ?? '',
+                'Выбранный аналог производитель': best?.product.manufacturer ?? '',
+                ...best?.product.parameters
+            }
+        })
+
+        const worksheet = XLSX.utils.json_to_sheet(data)
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Номенклатура')
+
+        XLSX.writeFile(workbook, 'Подобранные_аналоги_систэм_электрик.xlsx')
+    }
+
     return (
         <div className="min-h-screen bg-dark text-white p-6">
             <div className="max-w-7xl mx-auto">
@@ -80,6 +105,7 @@ export default function App() {
                         results={results}
                         onEdit={setEditingItem}
                         onUpdateBestMatch={handleUpdateBestMatch}
+                        onDownloadClick={handleDownload}
                     />
                 )}
 
@@ -100,5 +126,5 @@ export default function App() {
                 )}
             </div>
         </div>
-    );
+    )
 }

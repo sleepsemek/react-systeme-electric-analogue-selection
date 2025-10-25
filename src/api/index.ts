@@ -1,5 +1,5 @@
 import type { MatchResult } from '../domain/models'
-import { mockApi } from "./mockAdapter.ts";
+import { mockApi } from "./mockAdapter.ts"
 
 export interface BackendAPI {
     processFile(file: File): Promise<MatchResult[]>

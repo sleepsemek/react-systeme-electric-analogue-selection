@@ -1,5 +1,5 @@
 import logo from "../assets/logo.svg"
-import Badge from "./Badge.tsx";
+import Badge from "./Badge.tsx"
 export default function Header() {
     return (
         <header className="flex items-center justify-between mb-8 gap-2">
@@ -25,5 +25,5 @@ export default function Header() {
                 </div>
             </div>
         </header>
-    );
+    )
 }
