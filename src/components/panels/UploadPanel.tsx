@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+import Section from "../Section.tsx";
+import Button from "../Button.tsx";
 
 type UploadPanelProps = {
     onFileUpload: (file: File) => void
@@ -70,7 +72,7 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
     }
 
     return (
-        <div className="bg-dark-container rounded-xl shadow-sm p-6 mb-8">
+        <Section>
             <h2 className="text-2xl font-bold text-white mb-6">Загрузка таблицы</h2>
 
             <div
@@ -116,13 +118,7 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
                                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                             </p>
                         </div>
-                        <button
-                            onClick={handleUpload}
-                            className="btn-primary w-full sm:w-auto"
-                            type="button"
-                        >
-                            Подобрать аналоги
-                        </button>
+                        <Button onClick={handleUpload}>Подобрать аналоги</Button>
                     </div>
                 </div>
             )}
@@ -137,7 +133,7 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
                     </ul>
                 </div>
             )}
-        </div>
+        </Section>
     );
 };
 

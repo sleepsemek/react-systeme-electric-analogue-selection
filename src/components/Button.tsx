@@ -1,0 +1,33 @@
+import {type PropsWithChildren, type ReactNode} from "react";
+
+type ButtonProps = PropsWithChildren<{
+    variant?: 'primary' | 'rectangular' | 'transparent'
+    icon?: ReactNode
+    onClick?: () => void
+    className?: string
+}>
+
+export default function Button({
+    variant = 'primary',
+    icon,
+    onClick,
+    children,
+    className = ''
+}: ButtonProps) {
+    const classNames = {
+        primary: `btn-primary w-full sm:w-auto gap-2`,
+        rectangular: `btn-rect flex items-center gap-2`,
+        transparent: `text-primary hover:text-primary-darker text-sm font-medium flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary-container transition-colors`
+    }
+
+    return (
+            <button
+                onClick={onClick}
+                className={`${classNames[variant]} ${className}`}
+                type="button"
+            >
+                { icon }
+                { children }
+            </button>
+        )
+}

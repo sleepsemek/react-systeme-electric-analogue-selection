@@ -1,4 +1,5 @@
 import logo from "../assets/logo.svg"
+import Badge from "./Badge.tsx";
 export default function Header() {
     return (
         <header className="flex items-center justify-between mb-8 gap-2">
@@ -15,11 +16,12 @@ export default function Header() {
                     Подбор аналогов продукции
                 </h1>
                 <div className="items-center gap-2 hidden sm:flex">
-                    <span className="bg-primary/20 text-primary text-xs px-2 py-1 rounded">Systeme Electric</span>
-                    <span className="">•</span>
-                    <span className="bg-primary/20 text-primary text-xs px-2 py-1 rounded">Тестовая БД</span>
-                    <span className="">•</span>
-                    <span className="bg-primary/20 text-primary text-xs px-2 py-1 rounded">Демо-режим</span>
+                    <Badge>Systeme Electric</Badge>
+                    <span>•</span>
+                    <Badge>Тестовая БД</Badge>
+                    <span>•</span>
+                    <Badge>Демо-режим</Badge>
+
                 </div>
             </div>
         </header>
