@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import type {MatchResult, Product} from "../../App.tsx";
+import { useState } from 'react'
+import type { MatchResult, MatchedAlternative } from '../../Models.ts'
+import {ConfidenceBadge} from "../ConfidenceBadge.tsx";
+import Button from "../Button.tsx";
 
 type EditModalProps = {
     item: MatchResult
@@ -8,34 +10,43 @@ type EditModalProps = {
 }
 
 export const EditModal = ({
-    item,
-    onClose,
-    onSave
-}: EditModalProps) => {
-
-    const [selectedAlternative, setSelectedAlternative] = useState<Product | null>(null)
+                              item,
+                              onClose,
+                              onSave
+                          }: EditModalProps) => {
+    const [selectedAlternative, setSelectedAlternative] = useState<MatchedAlternative | null>(null)
     const [notes, setNotes] = useState('')
 
     const handleSave = () => {
-        const updatedItem = {
-            ...item,
-            bestMatch: selectedAlternative || item.bestMatch
+        if (!selectedAlternative) {
+            onClose()
+            return
         }
+
+        const updatedItem: MatchResult = {
+            ...item,
+            matchedAlternatives: [
+                selectedAlternative,
+                ...item.matchedAlternatives.filter(a => a.product.id !== selectedAlternative.product.id)
+            ]
+        }
+
         onSave(updatedItem)
     }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-dark rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-lg">
                 <div className="p-6 border-b">
                     <h2 className="text-xl font-semibold">Редактирование подбора</h2>
                 </div>
 
                 <div className="p-6 space-y-6">
                     <div>
-                        <h3 className="font-medium mb-2">Запрос:</h3>
-                        <div className="bg-gray-50 p-4 rounded">
+                        <h3 className="font-medium mb-2">Исходная позиция:</h3>
+                        <div className="bg-dark-container p-4 rounded-xl">
                             <p className="font-medium">{item.originalProduct.name}</p>
+                            <p className="text-sm text-gray-600">{item.originalProduct.manufacturer}</p>
                             <div className="mt-2 grid grid-cols-2 gap-4 text-sm">
                                 {Object.entries(item.originalProduct.parameters).map(([key, value]) => (
                                     <div key={key}>
@@ -46,54 +57,64 @@ export const EditModal = ({
                         </div>
                     </div>
 
-                    <div>
-                        <h3 className="font-medium mb-2">Текущий лучший аналог:</h3>
-                        <div className="bg-blue-50 p-4 rounded">
-                            <p className="font-medium">{item.bestMatch.name}</p>
-                            <p className="text-sm text-gray-600">{item.bestMatch.manufacturer}</p>
-                            <div className="mt-2 grid grid-cols-2 gap-4 text-sm">
-                                {Object.entries(item.bestMatch.parameters).map(([key, value]) => (
-                                    <div key={key}>
-                                        <span className="font-medium">{key}:</span> {value}
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="mt-2">
-                <span className="inline-flex px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded">
-                  Совпадение: {(item.confidence * 100).toFixed(1)}%
-                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {item.alternatives.length > 0 && (
+                    {item.matchedAlternatives.length > 0 && (
                         <div>
-                            <h3 className="font-medium mb-2">Альтернативные варианты:</h3>
+                            <h3 className="font-medium mb-2">Подобранные варианты:</h3>
                             <div className="space-y-3">
-                                {item.alternatives.map((alternative, index) => (
+                                {item.matchedAlternatives.map((alt, index) => (
                                     <div
                                         key={index}
-                                        className={`p-4 border rounded cursor-pointer ${
-                                            selectedAlternative?.id === alternative.id
-                                                ? 'border-blue-500 bg-blue-50'
-                                                : 'border-gray-200 hover:bg-gray-50'
+                                        className={`p-4 rounded-xl cursor-pointer transition ${
+                                            selectedAlternative?.product.id === alt.product.id
+                                                ? 'outline-2 outline-dashed outline-primary bg-secondary-container'
+                                                : 'bg-dark-container hover:bg-secondary-container'
                                         }`}
-                                        onClick={() => setSelectedAlternative(alternative)}
+                                        onClick={() => setSelectedAlternative(alt)}
                                     >
-                                        <div className="flex items-center justify-between">
+                                        <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
                                             <div>
-                                                <p className="font-medium">{alternative.name}</p>
-                                                <p className="text-sm text-gray-600">{alternative.manufacturer}</p>
+                                                <p className="font-medium">{alt.product.name}</p>
+                                                <p className="text-sm text-gray-600">{alt.product.manufacturer}</p>
                                             </div>
-                                            <button
-                                                className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+
+                                            {alt.confidence !== undefined && (
+                                                <ConfidenceBadge confidence={alt.confidence} />
+                                            )}
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4 text-sm">
+                                            {Object.entries(alt.product.parameters).map(([key, value]) => (
+                                                <div key={key}>
+                                                    <span className="font-medium">{key}:</span> {value}
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {alt.differences && alt.differences.length > 0 && (
+                                            <div className="mt-3">
+                                                <h4 className="text-sm font-semibold text-gray-700 mb-1">Различия:</h4>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {alt.differences.map((diff, i) => (
+                                                        <span
+                                                            key={i}
+                                                            className="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-lg border border-red-200"
+                                                        >
+                                                            {diff}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <div className="mt-3 flex justify-end">
+                                            <Button
                                                 onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setSelectedAlternative(alternative);
+                                                    e.stopPropagation()
+                                                    setSelectedAlternative(alt)
                                                 }}
                                             >
                                                 Выбрать
-                                            </button>
+                                            </Button>
                                         </div>
                                     </div>
                                 ))}
@@ -122,11 +143,12 @@ export const EditModal = ({
                     <button
                         onClick={handleSave}
                         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        disabled={!selectedAlternative}
                     >
                         Сохранить изменения
                     </button>
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}

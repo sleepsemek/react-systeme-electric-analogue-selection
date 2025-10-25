@@ -1,9 +1,9 @@
-import {type PropsWithChildren, type ReactNode} from "react";
+import {type PropsWithChildren, type ReactNode, type SyntheticEvent} from "react";
 
 type ButtonProps = PropsWithChildren<{
     variant?: 'primary' | 'cancel' | 'rectangular' | 'transparent'
     icon?: ReactNode
-    onClick?: () => void
+    onClick?: (e: SyntheticEvent) => void
     className?: string
 }>
 
