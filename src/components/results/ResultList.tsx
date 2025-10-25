@@ -171,7 +171,7 @@ export function ResultList({
 
                             <div className="grid md:grid-cols-2 gap-4">
                                 {alternatives.map((alt, index) => (
-                                    <div className="bg-secondary-container rounded-lg p-4" key={index}>
+                                    <div className="bg-secondary-container rounded-lg p-4 flex flex-col" key={index}>
                                         <div className="flex flex-wrap items-center justify-between mb-4 gap-x-4 gap-y-2">
                                             <p className="font-medium text-white">{alt.product.name}</p>
                                             <Button
@@ -199,7 +199,7 @@ export function ResultList({
                                         </div>
 
                                         {alt.confidence !== undefined && (
-                                            <div className="flex items-center justify-between flex-wrap gap-2">
+                                            <div className="flex items-center justify-between flex-wrap gap-2 grow">
                                                 <div className="text-sm font-medium text-white">
                                                     Уверенность:
                                                 </div>
