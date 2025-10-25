@@ -116,7 +116,7 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
             {selectedFile && (
                 <div className="mt-4 p-4 bg-secondary-container rounded-xl">
                     <div className="flex items-center justify-between flex-wrap gap-2">
-                        <div>
+                        <div className="grid grid-cols-1 gap-1">
                             <p className="font-medium text-primary">{selectedFile.name}</p>
                             <p className="text-sm text-on-dark">
                                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
@@ -138,7 +138,7 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
             )}
 
             {errors.length > 0 && (
-                <div className="mt-4 p-6 bg-error/10 rounded-xl">
+                <div className="mt-4 bg-error/10 rounded-xl p-3 sm:p-6">
                     <h3 className="text-error font-medium mb-2">Ошибки валидации:</h3>
                     <ul className="list-disc list-inside text-error">
                         {errors.map((error, index) => (

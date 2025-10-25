@@ -1,12 +1,13 @@
-import { useState } from 'react'
-import { UploadPanel } from './components/panels/UploadPanel.tsx'
-import { ResultPanel } from './components/panels/ResultPanel.tsx'
-import { NotificationPanel } from './components/panels/NotificationPanel.tsx'
-import { EditModal } from './components/modals/EditModal.tsx'
+import {useState} from 'react'
+import {UploadPanel} from './components/panels/UploadPanel.tsx'
+import {ResultPanel} from './components/panels/ResultPanel.tsx'
+import {NotificationPanel} from './components/panels/NotificationPanel.tsx'
+import {EditModal} from './components/modals/EditModal.tsx'
 import Header from "./components/Header.tsx"
-import type { MatchResult, Product } from "./domain/models.ts"
-import { processFile } from "./domain/usecases/processFile.ts"
+import type {MatchResult, Product} from "./domain/models.ts"
+import {processFile} from "./domain/usecases/processFile.ts"
 import * as XLSX from 'xlsx'
+import Section from "./components/Section.tsx";
 
 export default function App() {
     const [results, setResults] = useState<MatchResult[]>([])
@@ -23,7 +24,7 @@ export default function App() {
             setResults(results)
             addNotification('Подбор аналогов завершен')
         } catch (e) {
-            addNotification('Ошибка обработки файла')
+            addNotification('Ошибка обработки файла ' + e)
         } finally {
             setLoading(false)
         }
@@ -81,6 +82,17 @@ export default function App() {
         })
 
         const worksheet = XLSX.utils.json_to_sheet(data)
+
+        worksheet['!cols'] = Object.keys(data[0] ?? {}).map(key => ({
+            wch: Math.max(
+                key.length,
+                ...data.map(row => String(row[key] ?? '').length)
+            ) + 2
+        }))
+
+        const headers = [Object.keys(data[0] ?? {})]
+        XLSX.utils.sheet_add_aoa(worksheet, headers, { origin: 'A1' })
+
         const workbook = XLSX.utils.book_new()
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Номенклатура')
 
@@ -88,23 +100,21 @@ export default function App() {
     }
 
     return (
-        <div className="min-h-screen bg-dark text-white p-6">
+        <div className="min-h-screen bg-dark text-white p-3 sm:p-6">
             <div className="max-w-7xl mx-auto">
                 <Header />
                 <UploadPanel onFileUpload={handleFileUpload} />
 
                 {loading && (
-                    <div className="mb-8">
-                        <div className="bg-dark-container rounded-lg shadow p-6">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="font-medium">Обработка данных...</span>
-                                <span className="font-medium">50%</span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2">
-                                <div className="bg-primary h-2 rounded-full w-1/2"></div>
-                            </div>
+                    <Section>
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="font-medium">Обработка данных...</span>
+                            <span className="font-medium">50%</span>
                         </div>
-                    </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div className="bg-primary h-2 rounded-full w-1/2"></div>
+                        </div>
+                    </Section>
                 )}
 
                 {results.length > 0 && (
