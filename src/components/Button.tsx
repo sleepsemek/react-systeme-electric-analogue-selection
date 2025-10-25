@@ -1,7 +1,7 @@
 import {type PropsWithChildren, type ReactNode} from "react";
 
 type ButtonProps = PropsWithChildren<{
-    variant?: 'primary' | 'rectangular' | 'transparent'
+    variant?: 'primary' | 'cancel' | 'rectangular' | 'transparent'
     icon?: ReactNode
     onClick?: () => void
     className?: string
@@ -17,7 +17,8 @@ export default function Button({
     const classNames = {
         primary: `btn-primary w-full sm:w-auto gap-2`,
         rectangular: `btn-rect flex items-center gap-2`,
-        transparent: `text-primary hover:text-primary-darker text-sm font-medium flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary-container transition-colors`
+        transparent: `text-primary hover:text-primary-darker text-sm font-medium flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary-container transition-colors`,
+        cancel: `btn-cancel sm:w-auto gap-2`
     }
 
     return (

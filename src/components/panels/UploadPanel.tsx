@@ -47,6 +47,10 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
         }
     }
 
+    const handleCancel = () => {
+
+    }
+
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault()
         e.stopPropagation()
@@ -76,8 +80,8 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
             <h2 className="text-2xl font-bold text-white mb-6">Загрузка таблицы</h2>
 
             <div
-                className={`group border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors border-on-dark hover:bg-secondary-container hover:border-primary
-                ${isDragging ? 'bg-secondary-container border-primary' : ''}`}
+                className={`group border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors border-primary hover:bg-secondary-container hover:border-white
+                ${isDragging ? 'bg-secondary-container border-white' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
@@ -118,7 +122,17 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
                                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                             </p>
                         </div>
-                        <Button onClick={handleUpload}>Подобрать аналоги</Button>
+                        <div className="flex items-center gap-2 w-full sm:w-auto">
+                            <Button onClick={handleUpload}>Подобрать аналоги</Button>
+                            <Button
+                                onClick={handleCancel}
+                                variant="cancel"
+                                icon={(
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 20L4 4m16 0L4 20"/>
+                                    </svg>
+                                )}></Button>
+                        </div>
                     </div>
                 </div>
             )}

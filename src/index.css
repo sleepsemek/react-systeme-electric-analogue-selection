@@ -6,7 +6,6 @@
     --color-dark-container: #0e1623;
     --color-secondary-container: #171d29;
     --color-error: #ff554d;
-    --color-error-container: #3c1917;
     --color-on-dark: #d0d2d2;
     --color-gray: #787f86;
     --color-container: #3c3c3c;
@@ -19,6 +18,10 @@
 
     .btn-rect {
         @apply bg-primary text-white hover:bg-primary/70 hover:text-on-dark hover:cursor-pointer text-sm font-medium transition-all duration-200 px-3 py-2 rounded-lg
+    }
+
+    .btn-cancel {
+        @apply aspect-square bg-error/40 text-error hover:text-error/80 hover:cursor-pointer hover:bg-error/30 p-3 rounded-full transition-all duration-200
     }
 }
 

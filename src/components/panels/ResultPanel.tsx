@@ -1,8 +1,7 @@
 import { ResultList } from '../catalog/ResultList.tsx';
-import type {MatchResult, Product} from "../../App.tsx";
 import Section from "../Section.tsx";
 import Button from "../Button.tsx";
-import React from "react";
+import type {MatchResult, Product} from "../../Models.ts";
 
 type ResultPanelProps = {
     results: MatchResult[]
