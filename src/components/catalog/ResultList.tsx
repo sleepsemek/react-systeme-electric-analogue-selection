@@ -2,7 +2,7 @@ import {useState} from 'react'
 import ExpandableContent from "../ExpandableContent.tsx"
 import Badge from "../Badge.tsx"
 import Button from "../Button.tsx"
-import type {MatchResult, Product} from "../../Models.ts"
+import type {MatchResult, Product} from "../../domain/models.ts"
 import {ConfidenceBadge} from "../ConfidenceBadge.tsx";
 
 type ResultListProps = {
@@ -74,7 +74,7 @@ export function ResultList({
 
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div className="flex flex-col gap-y-3">
-                                        <h4 className="text-sm font-semibold text-on-dark uppercase">
+                                        <h4 className="font-semibold text-white text-lg">
                                             Исходная позиция
                                         </h4>
                                         <div className="bg-secondary-container rounded-lg p-4 flex flex-col h-full">
@@ -94,7 +94,7 @@ export function ResultList({
 
                                     {bestMatch && (
                                         <div className="flex flex-col gap-y-3">
-                                            <h4 className="text-sm font-semibold text-on-dark uppercase">
+                                            <h4 className="font-semibold text-white text-lg">
                                                 Лучший аналог
                                             </h4>
                                             <div className="bg-secondary-container rounded-lg p-4 flex flex-col h-full">
