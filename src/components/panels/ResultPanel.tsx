@@ -1,4 +1,4 @@
-import { ResultList } from '../catalog/ResultList.tsx';
+import { ResultList } from '../results/ResultList.tsx';
 import Section from "../Section.tsx";
 import Button from "../Button.tsx";
 import type {MatchResult, Product} from "../../domain/models.ts";

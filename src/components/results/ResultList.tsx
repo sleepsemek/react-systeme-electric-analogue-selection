@@ -12,10 +12,10 @@ type ResultListProps = {
 }
 
 export function ResultList({
-                               results,
-                               onEdit,
-                               onUpdateBestMatch
-                           }: ResultListProps) {
+   results,
+   onEdit,
+   onUpdateBestMatch
+}: ResultListProps) {
     const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
 
     const toggleItem = (requestId: string) => {

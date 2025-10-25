@@ -6,7 +6,6 @@ import { EditModal } from './components/modals/EditModal.tsx';
 import Header from "./components/Header.tsx";
 import type { MatchResult, Product } from "./domain/models.ts";
 import {processFile} from "./domain/usecases/processFile.ts";
-import {updateBestMatch} from "./domain/usecases/updateBestMatch.ts";
 
 export default function App() {
     const [results, setResults] = useState<MatchResult[]>([])
@@ -36,9 +35,23 @@ export default function App() {
         }, 5000)
     }
 
-    const handleUpdateBestMatch= async (requestId: string, product: Product) => {
-        await updateBestMatch(requestId, product)
-        setResults(prev => prev.map(i => i.tableRow === requestId ? { ...i, bestMatch: product } : i))
+    const handleUpdateBestMatch = (requestId: string, product: Product) => {
+        setResults(prev => prev.map(item => {
+            if (item.tableRow !== requestId) return item
+
+            const idx = item.matchedAlternatives.findIndex(alt => alt.product.id === product.id)
+            if (idx === -1) return item
+
+            const newAlternatives = [...item.matchedAlternatives]
+            const [selected] = newAlternatives.splice(idx, 1)
+            newAlternatives.unshift(selected)
+
+            return {
+                ...item,
+                matchedAlternatives: newAlternatives
+            }
+        }))
+
         addNotification('Лучший аналог обновлен')
     }
 

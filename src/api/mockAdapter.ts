@@ -240,9 +240,4 @@ export const mockApi = {
         await new Promise(res => setTimeout(res, 1500))
         return mockResults
     },
-
-    updateBestMatch: async (requestId: string, productId: string): Promise<void> => {
-        await new Promise(res => setTimeout(res, 500))
-        console.log(`Mock: обновлен лучший аналог ${productId} для ${requestId}`)
-    }
 }
