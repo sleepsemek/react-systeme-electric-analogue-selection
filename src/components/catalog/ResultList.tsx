@@ -1,10 +1,11 @@
 import {useState} from 'react';
 import type {MatchResult, Product} from '../../App.tsx';
+import ExpandableContent from "../ExpandableContent.tsx";
 
-interface ResultListProps {
-    results: MatchResult[];
-    onEdit: (item: MatchResult) => void;
-    onUpdateBestMatch: (requestId: string, product: Product) => void;
+type ResultListProps = {
+    results: MatchResult[]
+    onEdit: (item: MatchResult) => void
+    onUpdateBestMatch: (requestId: string, product: Product) => void
 }
 
 export function ResultList(
@@ -14,29 +15,29 @@ export function ResultList(
         onUpdateBestMatch
     }: ResultListProps
 ) {
-    const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+    const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
 
     const toggleItem = (requestId: string) => {
-        const newExpanded = new Set(expandedItems);
+        const newExpanded = new Set(expandedItems)
         if (newExpanded.has(requestId)) {
-            newExpanded.delete(requestId);
+            newExpanded.delete(requestId)
         } else {
-            newExpanded.add(requestId);
+            newExpanded.add(requestId)
         }
-        setExpandedItems(newExpanded);
-    };
+        setExpandedItems(newExpanded)
+    }
 
     const getConfidenceColor = (confidence: number) => {
-        if (confidence >= 0.9) return 'bg-primary/20 text-primary border border-primary/30';
-        if (confidence >= 0.7) return 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/30';
-        return 'bg-error/20 text-error border border-error/30';
-    };
+        if (confidence >= 0.9) return 'bg-primary/20 text-primary border border-primary/30'
+        if (confidence >= 0.7) return 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/30'
+        return 'bg-error/20 text-error border border-error/30'
+    }
 
     const getConfidenceText = (confidence: number) => {
-        if (confidence >= 0.9) return 'Высокая';
-        if (confidence >= 0.7) return 'Средняя';
-        return 'Низкая';
-    };
+        if (confidence >= 0.9) return 'Высокая'
+        if (confidence >= 0.7) return 'Средняя'
+        return 'Низкая'
+    }
 
     return (
         <div>
@@ -156,40 +157,38 @@ export function ResultList(
                                 )}
                             </div>
                         </div>
-                        {expandedItems.has(item.tableRow) && (
-                            <>
-                                <div className="flex items-center justify-between my-4">
-                                    <h4 className="font-semibold text-white text-lg">Альтернативные варианты</h4>
-                                </div>
+                        <ExpandableContent open={expandedItems.has(item.tableRow)}>
+                            <div className="flex items-center justify-between my-4">
+                                <h4 className="font-semibold text-white text-lg">Альтернативные варианты</h4>
+                            </div>
 
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    {item.alternatives.map((alternative, index) => (
-                                        <div className="bg-secondary-container rounded-lg p-4" key={index}>
-                                            <div className="flex flex-wrap justify-between mb-4 gap-x-4 gap-y-2">
-                                                <p className="font-medium text-white">{alternative.name}</p>
-                                                <button
-                                                    onClick={() => onUpdateBestMatch(item.tableRow, alternative)}
-                                                    className="btn-rect flex items-center gap-2 self-start w-full sm:w-auto"
-                                                >
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
-                                                    </svg>
-                                                    Выбрать лучшим
-                                                </button>
-                                            </div>
-                                            <div className="space-y-1">
-                                                {Object.entries(alternative.parameters).map(([key, value]) => (
-                                                    <div key={key} className="flex justify-between text-sm">
-                                                        <span className="text-on-dark font-medium">{key}:</span>
-                                                        <span className="text-on-dark font-medium">{value}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
+                            <div className="grid md:grid-cols-2 gap-4">
+                                {item.alternatives.map((alternative, index) => (
+                                    <div className="bg-secondary-container rounded-lg p-4" key={index}>
+                                        <div className="flex flex-wrap justify-between mb-4 gap-x-4 gap-y-2">
+                                            <p className="font-medium text-white">{alternative.name}</p>
+                                            <button
+                                                onClick={() => onUpdateBestMatch(item.tableRow, alternative)}
+                                                className="btn-rect flex items-center gap-2 self-start w-full sm:w-auto"
+                                            >
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                                Выбрать лучшим
+                                            </button>
                                         </div>
-                                    ))}
-                                </div>
-                            </>
-                        )}
+                                        <div className="space-y-1">
+                                            {Object.entries(alternative.parameters).map(([key, value]) => (
+                                                <div key={key} className="flex justify-between text-sm">
+                                                    <span className="text-on-dark font-medium">{key}:</span>
+                                                    <span className="text-on-dark font-medium">{value}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </ExpandableContent>
                     </div>
                 </div>
             ))}

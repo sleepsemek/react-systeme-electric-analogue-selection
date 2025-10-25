@@ -5,32 +5,32 @@ import { NotificationPanel } from './components/panels/NotificationPanel.tsx';
 import { EditModal } from './components/modals/EditModal.tsx';
 import Header from "./components/Header.tsx";
 
-export interface Product {
-    id: string;
-    name: string;
-    manufacturer: string;
-    parameters: Record<string, string | number>;
+export type Product = {
+    id: string
+    name: string
+    manufacturer: string
+    parameters: Record<string, string | number>
 }
 
-export interface MatchResult {
-    tableRow: string;
-    originalProduct: Product;
-    bestMatch: Product;
-    confidence: number;
-    differences: string[];
-    status: 'success' | 'warning' | 'error';
-    alternatives: Product[];
+export type MatchResult = {
+    tableRow: string
+    originalProduct: Product
+    bestMatch: Product
+    confidence: number
+    differences: string[]
+    status: 'success' | 'warning' | 'error'
+    alternatives: Product[]
 }
 
 export default function App() {
-    const [results, setResults] = useState<MatchResult[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [editingItem, setEditingItem] = useState<MatchResult | null>(null);
-    const [notifications, setNotifications] = useState<string[]>([]);
+    const [results, setResults] = useState<MatchResult[]>([])
+    const [loading, setLoading] = useState(false)
+    const [editingItem, setEditingItem] = useState<MatchResult | null>(null)
+    const [notifications, setNotifications] = useState<string[]>([])
 
     const handleFileUpload = async (file: File) => {
-        setLoading(true);
-        addNotification('Начата обработка файла');
+        setLoading(true)
+        addNotification('Начата обработка файла')
 
         setTimeout(() => {
             const mockResults: MatchResult[] = [
@@ -563,29 +563,29 @@ export default function App() {
                         }
                     ]
                 }
-            ];
+            ]
 
-            setResults(mockResults);
-            setLoading(false);
-            addNotification('Подбор аналогов завершен');
-        }, 2000);
-    };
+            setResults(mockResults)
+            setLoading(false)
+            addNotification('Подбор аналогов завершен')
+        }, 2000)
+    }
 
     const addNotification = (message: string) => {
-        setNotifications(prev => [...prev, message]);
+        setNotifications(prev => [...prev, message])
         setTimeout(() => {
-            setNotifications(prev => prev.filter(msg => msg !== message));
-        }, 5000);
-    };
+            setNotifications(prev => prev.filter(msg => msg !== message))
+        }, 5000)
+    }
 
     const updateBestMatch = (requestId: string, newBestMatch: Product) => {
         setResults(prev => prev.map(item =>
             item.tableRow === requestId
                 ? { ...item, bestMatch: newBestMatch }
                 : item
-        ));
-        addNotification('Лучший аналог обновлен');
-    };
+        ))
+        addNotification('Лучший аналог обновлен')
+    }
 
     return (
         <div className="min-h-screen bg-dark text-white p-6">
@@ -594,14 +594,14 @@ export default function App() {
                 <UploadPanel onFileUpload={handleFileUpload} />
 
                 {loading && (
-                    <div className="mt-8">
+                    <div className="mb-8">
                         <div className="bg-dark-container rounded-lg shadow p-6">
                             <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-medium">Обработка данных...</span>
-                                <span className="text-sm font-medium">50%</span>
+                                <span className="font-medium">Обработка данных...</span>
+                                <span className="font-medium">50%</span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
-                                <div className="bg-blue-600 h-2 rounded-full w-1/2"></div>
+                                <div className="bg-primary h-2 rounded-full w-1/2"></div>
                             </div>
                         </div>
                     </div>
@@ -624,9 +624,9 @@ export default function App() {
                         onSave={(updatedItem) => {
                             setResults(prev => prev.map(item =>
                                 item.tableRow === updatedItem.tableRow ? updatedItem : item
-                            ));
-                            setEditingItem(null);
-                            addNotification('Изменения сохранены');
+                            ))
+                            setEditingItem(null)
+                            addNotification('Изменения сохранены')
                         }}
                     />
                 )}

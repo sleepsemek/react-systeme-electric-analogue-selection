@@ -1,11 +1,9 @@
-import React from 'react';
-
-interface NotificationPanelProps {
+type NotificationPanelProps = {
     messages: string[];
 }
 
-export const NotificationPanel: React.FC<NotificationPanelProps> = ({ messages }) => {
-    if (messages.length === 0) return null;
+export const NotificationPanel = ({ messages }: NotificationPanelProps) => {
+    if (messages.length === 0) return null
 
     return (
         <div className="fixed top-4 right-4 space-y-2 z-50">

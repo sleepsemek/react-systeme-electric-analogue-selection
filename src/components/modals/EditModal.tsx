@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type {MatchResult, Product} from "../../App.tsx";
 
-interface EditModalProps {
-    item: MatchResult;
-    onClose: () => void;
-    onSave: (item: MatchResult) => void;
+type EditModalProps = {
+    item: MatchResult
+    onClose: () => void
+    onSave: (item: MatchResult) => void
 }
 
-export const EditModal: React.FC<EditModalProps> = ({ item, onClose, onSave }) => {
-    const [selectedAlternative, setSelectedAlternative] = useState<Product | null>(null);
-    const [notes, setNotes] = useState('');
+export const EditModal = ({
+    item,
+    onClose,
+    onSave
+}: EditModalProps) => {
+
+    const [selectedAlternative, setSelectedAlternative] = useState<Product | null>(null)
+    const [notes, setNotes] = useState('')
 
     const handleSave = () => {
         const updatedItem = {
             ...item,
             bestMatch: selectedAlternative || item.bestMatch
-        };
-        onSave(updatedItem);
-    };
+        }
+        onSave(updatedItem)
+    }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">

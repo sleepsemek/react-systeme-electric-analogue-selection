@@ -1,71 +1,73 @@
 import React, { useRef, useState } from 'react';
 
-interface UploadPanelProps {
-    onFileUpload: (file: File) => void;
+type UploadPanelProps = {
+    onFileUpload: (file: File) => void
 }
 
-export const UploadPanel: React.FC<UploadPanelProps> = ({ onFileUpload }) => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [errors, setErrors] = useState<string[]>([]);
-    const [isDragging, setIsDragging] = useState(false);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
+    const [selectedFile, setSelectedFile] = useState<File | null>(null)
+    const [errors, setErrors] = useState<string[]>([])
+    const [isDragging, setIsDragging] = useState(false)
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleFileSelect = (file: File | null) => {
-        if (!file) return;
-        const validationErrors = validateFile(file);
+        if (!file) return
+
+        const validationErrors = validateFile(file)
+
         if (validationErrors.length === 0) {
-            setSelectedFile(file);
-            setErrors([]);
+            setSelectedFile(file)
+            setErrors([])
         } else {
-            setErrors(validationErrors);
+            setErrors(validationErrors)
         }
-    };
+    }
 
     const validateFile = (file: File): string[] => {
-        const errors: string[] = [];
-        const validTypes = ['.xlsx', '.xls', '.csv'];
-        const extension = file.name.split('.').pop()?.toLowerCase();
+        const errors: string[] = []
+        const validTypes = ['.xlsx', '.xls', '.csv']
+        const extension = file.name.split('.').pop()?.toLowerCase()
 
         if (!validTypes.includes(`.${extension}`)) {
-            errors.push('Поддерживаются только файлы Excel и CSV');
+            errors.push('Поддерживаются только файлы Excel и CSV')
         }
 
         if (file.size > 10 * 1024 * 1024) {
-            errors.push('Размер файла не должен превышать 10MB');
+            errors.push('Размер файла не должен превышать 10MB')
         }
 
         return errors;
-    };
+    }
 
     const handleUpload = () => {
         if (selectedFile) {
-            onFileUpload(selectedFile);
+            onFileUpload(selectedFile)
         }
-    };
+    }
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(true);
-    };
+        e.preventDefault()
+        e.stopPropagation()
+        setIsDragging(true)
+    }
 
     const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(false);
-    };
+        e.preventDefault()
+        e.stopPropagation()
+        setIsDragging(false)
+    }
 
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(false);
-        const file = e.dataTransfer.files?.[0];
-        handleFileSelect(file);
-    };
+        e.preventDefault()
+        e.stopPropagation()
+        setIsDragging(false)
+        const file = e.dataTransfer.files?.[0]
+        handleFileSelect(file)
+    }
 
     const handleClick = () => {
-        fileInputRef.current?.click();
-    };
+        fileInputRef.current?.click()
+    }
 
     return (
         <div className="bg-dark-container rounded-xl shadow-sm p-6 mb-8">
