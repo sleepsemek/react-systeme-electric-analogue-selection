@@ -5,8 +5,8 @@ type ConfidenceBadgeProps = {
 export function ConfidenceBadge({confidence}: ConfidenceBadgeProps) {
     const getConfidenceColor = (confidence?: number) => {
         if (confidence == null) return 'bg-gray-700 text-gray-300 border border-gray-600'
-        if (confidence >= 0.9) return 'bg-primary/20 text-primary border border-primary/30'
-        if (confidence >= 0.7) return 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/30'
+        if (confidence >= 0.9) return 'bg-primary/10 text-primary border border-primary/30'
+        if (confidence >= 0.7) return 'bg-yellow-400/10 text-yellow-600 border border-yellow-500/30'
         return 'bg-error/20 text-error border border-error/30'
     }
 

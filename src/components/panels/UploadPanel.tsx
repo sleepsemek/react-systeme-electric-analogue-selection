@@ -3,10 +3,11 @@ import Section from "../Section.tsx"
 import Button from "../Button.tsx"
 
 type UploadPanelProps = {
-    onFileUpload: (file: File) => void
+    onFileUpload: (file: File) => void,
+    onClearClick: () => void,
 }
 
-export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
+export const UploadPanel = ({ onFileUpload, onClearClick }: UploadPanelProps) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [errors, setErrors] = useState<string[]>([])
     const [isDragging, setIsDragging] = useState(false)
@@ -41,14 +42,18 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
         return errors
     }
 
+    const handleClear = () => {
+        setSelectedFile(null)
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''
+        }
+        onClearClick()
+    }
+
     const handleUpload = () => {
         if (selectedFile) {
             onFileUpload(selectedFile)
         }
-    }
-
-    const handleCancel = () => {
-
     }
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -80,8 +85,8 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
             <h2 className="text-2xl font-bold text-white mb-6">Загрузка таблицы</h2>
 
             <div
-                className={`group border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors border-primary hover:bg-secondary-container hover:border-white
-                ${isDragging ? 'bg-secondary-container border-white' : ''}`}
+                className={`group border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors border-primary hover:bg-secondary-container hover:border-gray-600 hover:text-dark
+                ${isDragging ? 'bg-secondary-container border-gray-600' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
@@ -101,8 +106,8 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
                     </svg>
 
                     <div>
-                        <div className={`btn-primary inline group-hover:bg-primary/70 group-hover:text-on-dark
-                        ${isDragging ? 'bg-primary/70 text-on-dark' : ''}`}>
+                        <div className={`btn-primary inline group-hover:bg-primary/70 group-hover:text-dark text-dark 
+                        ${isDragging ? 'bg-primary/70 text-dark' : ''}`}>
                             Выбрать файл
                         </div>
                     </div>
@@ -114,7 +119,7 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
             </div>
 
             {selectedFile && (
-                <div className="mt-4 p-4 bg-secondary-container rounded-xl">
+                <div className="mt-4 p-4 bg-secondary-container rounded-xl shadow-sm">
                     <div className="flex items-center justify-between flex-wrap gap-2">
                         <div className="grid grid-cols-1 gap-1">
                             <p className="font-medium text-primary">{selectedFile.name}</p>
@@ -125,7 +130,7 @@ export const UploadPanel = ({ onFileUpload }: UploadPanelProps) => {
                         <div className="flex items-center gap-2 w-full sm:w-auto">
                             <Button onClick={handleUpload}>Подобрать аналоги</Button>
                             <Button
-                                onClick={handleCancel}
+                                onClick={handleClear}
                                 variant="cancel"
                                 icon={(
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

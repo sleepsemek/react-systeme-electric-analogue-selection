@@ -41,7 +41,7 @@ export default function ExpandableContent({ open, children, className = ''}: Exp
     return (
         <div
             ref={ref}
-            className={`overflow-hidden translation-[height] duration-200 ${className}`}
+            className={`${!open && 'overflow-hidden'} translation-[height] duration-200 ${className}`}
             style={{
                 willChange: 'height'
             }}

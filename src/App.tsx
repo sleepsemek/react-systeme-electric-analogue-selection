@@ -14,13 +14,18 @@ export default function App() {
     const [loading, setLoading] = useState(false)
     const [editingItem, setEditingItem] = useState<MatchResult | null>(null)
     const [notifications, setNotifications] = useState<string[]>([])
+    const [progress, setProgress] = useState(0)
 
     const handleFileUpload = async (file: File) => {
         setLoading(true)
         addNotification('Начата обработка файла')
 
+        const updateProgress = (p: number) => {
+            setProgress(p)
+        }
+
         try {
-            const results = await processFile(file, p => console.log(`Progress: ${p}`))
+            const results = await processFile(file, updateProgress)
             setResults(results)
             addNotification('Подбор аналогов завершен')
         } catch (e) {
@@ -39,7 +44,7 @@ export default function App() {
 
     const handleUpdateBestMatch = (requestId: string, product: Product) => {
         setResults(prev => prev.map(item => {
-            if (item.tableRow !== requestId) return item
+            if (item.index !== requestId) return item
 
             const idx = item.matchedAlternatives.findIndex(alt => alt.product.id === product.id)
             if (idx === -1) return item
@@ -57,6 +62,11 @@ export default function App() {
         addNotification('Лучший аналог обновлен')
     }
 
+    const handleClear = () => {
+        setResults([])
+        setProgress(0)
+    }
+
     const handleDownload = () => {
         const data = results.map(item => {
             const match = item.matchedAlternatives[0]
@@ -70,7 +80,7 @@ export default function App() {
                 }, {} as Record<string, string | number>);
 
             return {
-                '№': item.tableRow,
+                '№': item.index,
                 'Исходный ID': item.originalProduct.id,
                 'Исходный название': item.originalProduct.name,
                 'Исходный производитель': item.originalProduct.manufacturer,
@@ -103,16 +113,16 @@ export default function App() {
         <div className="min-h-screen bg-dark text-white p-3 sm:p-6">
             <div className="max-w-7xl mx-auto">
                 <Header />
-                <UploadPanel onFileUpload={handleFileUpload} />
+                <UploadPanel onFileUpload={handleFileUpload} onClearClick={handleClear} />
 
                 {loading && (
                     <Section>
                         <div className="flex items-center justify-between mb-2">
                             <span className="font-medium">Обработка данных...</span>
-                            <span className="font-medium">50%</span>
+                            <span className="font-medium">{progress}%</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full w-1/2"></div>
+                            <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
                         </div>
                     </Section>
                 )}
@@ -134,7 +144,7 @@ export default function App() {
                         onClose={() => setEditingItem(null)}
                         onSave={(updatedItem) => {
                             setResults(prev => prev.map(item =>
-                                item.tableRow === updatedItem.tableRow ? updatedItem : item
+                                item.index === updatedItem.index ? updatedItem : item
                             ))
                             setEditingItem(null)
                             addNotification('Изменения сохранены')

@@ -18,7 +18,7 @@ export const ResultPanel = ({
 }: ResultPanelProps) => {
     return (
         <Section>
-            <div className="flex justify-between items-center flex-wrap gap-2 mb-6">
+            <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
                 <div>
                     <h2 className="text-2xl font-bold">Результаты подбора</h2>
                     <p className="text-on-dark text-sm mt-2">Обработано {results.length} позиций номенклатуры</p>

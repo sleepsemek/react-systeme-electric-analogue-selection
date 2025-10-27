@@ -15,8 +15,8 @@ export default function Button({
     className = ''
 }: ButtonProps) {
     const classNames = {
-        primary: `btn-primary w-full sm:w-auto gap-2`,
-        rectangular: `btn-rect flex items-center gap-2 w-full sm:w-auto`,
+        primary: `btn-primary w-full sm:w-auto gap-2 text-dark`,
+        rectangular: `btn-rect flex items-center gap-2 w-full sm:w-auto text-dark`,
         transparent: `text-primary hover:text-primary-darker text-sm font-medium flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary-container transition-colors`,
         cancel: `btn-cancel sm:w-auto gap-2`
     }

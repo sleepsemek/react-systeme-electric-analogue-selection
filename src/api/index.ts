@@ -1,19 +1,24 @@
-import type { MatchResult } from '../domain/models'
-import { mockApi } from "./mockAdapter.ts"
+import {type MatchResult, normalizeResults} from '../domain/models'
 
-export interface BackendAPI {
-    processFile(file: File): Promise<MatchResult[]>
-    updateBestMatch(requestId: string, productId: string): Promise<void>
+export const baseUrl = 'http://localhost:3100'
+
+export const api: BackendAPI = {
+    async processFile(rows: string[]): Promise<MatchResult[]> {
+        const response = await fetch(`${baseUrl}/api/match`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ rows }),
+        })
+
+        if (!response.ok) {
+            throw new Error('Ошибка при обращении к серверу')
+        }
+
+        const serverResults = await response.json()
+        return normalizeResults(serverResults)
+    },
 }
 
-// export const api: BackendAPI = {
-//     processFile: async (file) => {
-//         const { mockResults } = await import('./mockAdapter')
-//         return mockResults
-//     },
-//     updateBestMatch: async (requestId, productId) => {
-//         console.log('Mock update', requestId, productId)
-//     }
-// }
-
-export const api = mockApi
+export interface BackendAPI {
+    processFile(rows: string[]): Promise<MatchResult[]>
+}

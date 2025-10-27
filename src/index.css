@@ -2,13 +2,21 @@
 
 @theme {
     --color-primary: #00ac86;
-    --color-dark: #09101a;
-    --color-dark-container: #0e1623;
-    --color-secondary-container: #171d29;
+    /*--color-dark: #09101a;*/
+    /*--color-dark-container: #0e1623;*/
+    /*--color-secondary-container: #171d29;*/
+    --color-dark: #f9f9f9;
+    --color-dark-container: #fcfcfc;
+    --color-secondary-container: #fafafa;
+    /*--color-error: #ff554d;*/
+    /*--color-on-dark: #d0d2d2;*/
+    /*--color-gray: #787f86;*/
+    /*--color-container: #3c3c3c;*/
     --color-error: #ff554d;
-    --color-on-dark: #d0d2d2;
-    --color-gray: #787f86;
-    --color-container: #3c3c3c;
+    --color-on-dark: #151515;
+    --color-gray: #2c2c2c;
+    --color-container: #dadada;
+    --color-white: #000000;
 }
 
 @layer components {
@@ -21,7 +29,7 @@
     }
 
     .btn-cancel {
-        @apply aspect-square bg-error/40 text-error hover:text-error/80 hover:cursor-pointer hover:bg-error/30 p-3 rounded-full transition-all duration-200
+        @apply aspect-square bg-error/10 text-error hover:text-error/80 hover:cursor-pointer hover:bg-error/30 p-3 rounded-full transition-all duration-200
     }
 }
 
