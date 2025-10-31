@@ -130,7 +130,6 @@ export default function App() {
                 {results.length > 0 && (
                     <ResultPanel
                         results={results}
-                        onEdit={setEditingItem}
                         onUpdateBestMatch={handleUpdateBestMatch}
                         onDownloadClick={handleDownload}
                     />

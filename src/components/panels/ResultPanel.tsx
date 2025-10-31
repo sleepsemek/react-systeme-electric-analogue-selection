@@ -12,7 +12,6 @@ type ResultPanelProps = {
 
 export const ResultPanel = ({
     results,
-    onEdit,
     onUpdateBestMatch,
     onDownloadClick
 }: ResultPanelProps) => {
@@ -28,7 +27,6 @@ export const ResultPanel = ({
 
             <ResultList
                 results={results}
-                onEdit={onEdit}
                 onUpdateBestMatch={onUpdateBestMatch}
             />
         </Section>

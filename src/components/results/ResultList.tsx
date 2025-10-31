@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {type ReactNode, useState} from 'react'
 import ExpandableContent from "../ExpandableContent.tsx"
 import Button from "../Button.tsx"
 import type { MatchResult, Product } from "../../domain/models.ts"
@@ -6,11 +6,10 @@ import { ConfidenceBadge } from "../ConfidenceBadge.tsx"
 
 type ResultListProps = {
     results: MatchResult[]
-    onEdit: (item: MatchResult) => void
     onUpdateBestMatch: (requestId: string, product: Product) => void
 }
 
-export function ResultList({ results, onEdit, onUpdateBestMatch }: ResultListProps) {
+export function ResultList({ results, onUpdateBestMatch }: ResultListProps) {
     const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
 
     const toggleItem = (requestId: string) => {
@@ -21,10 +20,11 @@ export function ResultList({ results, onEdit, onUpdateBestMatch }: ResultListPro
 
     const renderComparisonRow = (
         key: string,
-        original: any,
-        alternative: any,
+        original: ReactNode,
+        alternative: ReactNode,
+        isPrice = false
     ) => {
-        const isDifferent = original !== alternative
+        const isDifferent = !isPrice && original !== alternative
         const arrowColor = isDifferent ? 'text-error' : 'text-primary'
 
         return (
@@ -33,14 +33,14 @@ export function ResultList({ results, onEdit, onUpdateBestMatch }: ResultListPro
                     {key}
                 </td>
 
-                <td
-                    className={`
-                        w-1/2 px-4 py-3 text-sm text-center font-medium border-l border-primary/20 relative
-                        ${isDifferent ? 'text-error' : 'text-on-dark'}
-                    `}
-                >
+                <td className={`w-1/2 px-4 py-3 text-sm text-center font-medium border-l border-primary/20 relative ${isDifferent ? 'text-error' : 'text-on-dark'}`}>
                     {original ?? '—'}
-                    <svg className={`${arrowColor} absolute top-1/2 right-[-14px] -translate-y-1/2`} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 26"><title>Arrow-right-thick SVG Icon</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 12l-7-9v4.99L3 8v8h11v5z"/></svg>
+                    {!isPrice && (
+                        <svg className={`${arrowColor} absolute top-1/2 right-[-14px] -translate-y-1/2`} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 26">
+                            <title>Arrow-right-thick SVG Icon</title>
+                            <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m21 12l-7-9v4.99L3 8v8h11v5z"/>
+                        </svg>
+                    )}
                 </td>
 
                 <td className={`w-1/2 px-4 py-3 text-sm text-center font-medium ${isDifferent ? 'text-error font-semibold' : 'text-on-dark'}`}>
@@ -50,14 +50,10 @@ export function ResultList({ results, onEdit, onUpdateBestMatch }: ResultListPro
         )
     }
 
-    const renderComparisonTable = (
-        item: MatchResult,
-        product: Product
-    ) => {
+    const renderComparisonTable = (item: MatchResult, product: Product) => {
         const allKeys = new Set([
             ...Object.keys(item.originalProduct.parameters),
-            ...Object.keys(product.parameters),
-            'price'
+            ...Object.keys(product.parameters)
         ])
 
         return (
@@ -66,27 +62,15 @@ export function ResultList({ results, onEdit, onUpdateBestMatch }: ResultListPro
                     <table className="w-full table-auto">
                         <thead>
                         <tr className="border-b border-primary bg-primary/20">
-                            <th className="px-4 py-3 text-base font-semibold text-on-dark text-left w-fit">
-                                Параметр
-                            </th>
-                            <th className="px-4 py-3 text-base font-semibold text-on-dark text-left border-l border-primary/20 w-1/2">
-                                {item.originalProduct.name}
-                            </th>
-                            <th className="px-4 py-3 text-base font-semibold text-on-dark text-left border-l border-primary/20 w-1/2">
-                                {product.name}
-                            </th>
+                            <th className="px-4 py-3 text-base font-semibold text-on-dark text-left w-fit">Параметр</th>
+                            <th className="px-4 py-3 text-base font-semibold text-on-dark text-left border-l border-primary/20 w-1/2">{item.originalProduct.name}</th>
+                            <th className="px-4 py-3 text-base font-semibold text-on-dark text-left border-l border-primary/20 w-1/2">{product.name}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {[...allKeys].map((key) => {
-                            const orig = key === 'price'
-                                ? (item.originalProduct as any).price
-                                : item.originalProduct.parameters[key]
-                            const alt = key === 'price'
-                                ? (product as any).price
-                                : product.parameters[key]
-                            return renderComparisonRow(key, orig, alt)
-                        })}
+                        {[...allKeys].map(key => renderComparisonRow(key, item.originalProduct.parameters[key], product.parameters[key]))}
+
+                        {renderComparisonRow('Цена', item.originalProduct.price ? item.originalProduct.price + '₽' : '—', product.price ? product.price + '₽' : '—', true)}
                         </tbody>
                     </table>
                 </div>
@@ -120,7 +104,6 @@ export function ResultList({ results, onEdit, onUpdateBestMatch }: ResultListPro
                             </div>
 
                             <Button
-                                onClick={() => onEdit(item)}
                                 variant="transparent"
                                 icon={(
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,7 +117,7 @@ export function ResultList({ results, onEdit, onUpdateBestMatch }: ResultListPro
                             </Button>
                         </div>
                         <div className="mb-4">
-                            {renderComparisonTable(item, bestMatch.product, bestMatch.confidence, false)}
+                            {renderComparisonTable(item, bestMatch.product)}
                         </div>
 
                         {alternatives.length > 0 && (
@@ -193,7 +176,7 @@ export function ResultList({ results, onEdit, onUpdateBestMatch }: ResultListPro
                                                         Выбрать лучшим
                                                     </Button>
                                                 </div>
-                                                {renderComparisonTable(item, alt.product, alt.confidence, true)}
+                                                {renderComparisonTable(item, alt.product)}
                                             </div>
                                         ))}
                                     </div>

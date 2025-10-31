@@ -43,7 +43,7 @@ function isDefinedValue(entry: [string, unknown]): entry is [string, string | nu
 }
 
 export function normalizeProduct(raw: RawProduct): Product {
-    const { id, name, manufacturer, productLine = '', ...rest } = raw
+    const { id, name, manufacturer, productLine = '', price = '', ...rest } = raw
 
     const parameters = Object.fromEntries(
         Object.entries(rest).filter(isDefinedValue)
@@ -54,7 +54,8 @@ export function normalizeProduct(raw: RawProduct): Product {
         name,
         manufacturer,
         productLine,
-        parameters
+        parameters,
+        price: String(price)
     }
 }
 
