@@ -1,8 +1,8 @@
-# AI Impulse Hackathon — Expert Search (Frontend)
+# AI Impulse Хакатон - Expert Search (Frontend)
 
-**Expert Search** — веб-приложение для интеллектуального поиска аналогов продукции компании **Systeme Electric**, разработанное в рамках хакатона AI Impulse.
+**Expert Search** - приложение для интеллектуального поиска аналогов продукции компании **Systeme Electric**, разработанное в рамках хакатона Сбер AI Impulse.
 ---
-Выполнен на:
+Выполнено на:
  - React + Vite
  - TypeScript
  - TailwindCSS
