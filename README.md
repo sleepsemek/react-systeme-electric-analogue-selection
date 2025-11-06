@@ -1,5 +1,5 @@
 # AI Impulse Хакатон - Expert Search (Frontend)
-
+<img width="1920" height="1080" alt="Frame 2" src="https://github.com/user-attachments/assets/09ea88f7-2da1-4ba7-92ae-9f419ab18338" />
 **Expert Search** - приложение для интеллектуального поиска аналогов продукции компании **Systeme Electric**, разработанное в рамках хакатона Сбер AI Impulse.
 ---
 Выполнено на:
